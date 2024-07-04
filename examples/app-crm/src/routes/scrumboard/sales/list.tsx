@@ -130,7 +130,11 @@ export const SalesPage: FC<PropsWithChildren> = ({ children }) => {
     };
   }, [stages, deals]);
 
-  const { mutate: updateDeal } = useUpdate();
+  const { mutate: updateDeal } = useUpdate({
+    resource: "deals",
+    successNotification: false,
+    mutationMode: "optimistic",
+  });
   const { mutate: updateManyDeal } = useUpdateMany();
   const { mutate: deleteStage } = useDelete();
 
@@ -169,13 +173,10 @@ export const SalesPage: FC<PropsWithChildren> = ({ children }) => {
 
     updateDeal(
       {
-        resource: "deals",
         id: dealId,
         values: {
           stageId: stageId,
         },
-        successNotification: false,
-        mutationMode: "optimistic",
       },
       {
         onSuccess: () => {

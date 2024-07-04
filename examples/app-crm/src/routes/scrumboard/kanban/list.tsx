@@ -99,7 +99,11 @@ export const KanbanPage: FC<PropsWithChildren> = ({ children }) => {
     };
   }, [tasks, stages]);
 
-  const { mutate: updateTask } = useUpdate<Task, HttpError, TaskUpdateInput>();
+  const { mutate: updateTask } = useUpdate<Task, HttpError, TaskUpdateInput>({
+    resource: "tasks",
+    successNotification: false,
+    mutationMode: "optimistic",
+  });
   const { mutate: updateManyTask } = useUpdateMany();
   const { mutate: deleteStage } = useDelete();
 
@@ -117,13 +121,10 @@ export const KanbanPage: FC<PropsWithChildren> = ({ children }) => {
     }
 
     updateTask({
-      resource: "tasks",
       id: taskId,
       values: {
         stageId: stageId,
       },
-      successNotification: false,
-      mutationMode: "optimistic",
     });
   };
 
